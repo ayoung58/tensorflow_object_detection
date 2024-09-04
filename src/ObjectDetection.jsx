@@ -59,11 +59,11 @@ const ObjectDetection = () => {
             <h1>Object Detection Component</h1>
             {/* whenever the image is changed, rerun the model */}
             <input type="file" accept="image/*" onChange={handleImageUpload} />
-            <div>
+            <div className="images-container">
                 {imageSrc && (
-                    <div>
+                    <div className="image-wrapper">
                         <h3>Uploaded Image</h3>
-                            <img src={imageSrc} alt="Upload Preview" />
+                            <img src={imageSrc} alt="Upload Preview" className="uploaded-image"/>
                     </div>
                 )}
             </div>
@@ -74,7 +74,10 @@ const ObjectDetection = () => {
                     {/* This is effectively a loop */}
                     {predictedValues.map((eachPrediction, index) => (
                         // .score shows us how confident the model is for a prediction
-                        <p key={index}>
+                        <p key={index} style={{
+                            fontSize: "2rem",
+                            fontFamily: "monospace",
+                        }}>
                             {eachPrediction.class}: {Math.round(eachPrediction.score) * 100}%
                         </p>
                     ))}
