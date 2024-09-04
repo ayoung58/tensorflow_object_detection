@@ -22,7 +22,7 @@ const ObjectDetection = () => {
     }, []);
 
     const handleImageUpload = async (event) => {
-        const file = event.target.file[0];
+        const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
