@@ -73,7 +73,9 @@ const ObjectDetection = () => {
                     {/* This is effectively a loop */}
                     {predictedValues.map((eachPrediction, index) => (
                         // .score shows us how confident the model is for a prediction
-                        <p key={index}>{eachPrediction.score}</p>
+                        <p key={index}>
+                            {eachPrediction.class}: {eachPrediction.score}
+                        </p>
                     ))}
                 </div>
             )}
