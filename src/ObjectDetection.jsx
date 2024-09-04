@@ -64,7 +64,14 @@ const ObjectDetection = () => {
             ctx.lineWidth = 4;
             // define the shape of the box drawing
             ctx.strokeRect(x, y, width, height);
-        });
+            ctx.font = "24px Arial";
+            ctx.fillStyle = "blue";
+            ctx.fillText(
+                `${prediction.class}: ${Math.round(prediction.score * 100)}%`, 
+                x, 
+                y > 10 ? y - 5 : 10,
+            );
+            });
     };
 
 
