@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import '@tensorflow/tfjs';
 import * as cocoSsd  from "@tensorflow-models/coco-ssd"
+import "./ObjectDetection.css";
 
 const ObjectDetection = () => {
 
@@ -54,7 +55,7 @@ const ObjectDetection = () => {
 
 
     return (
-        <div>
+        <div className="ObjectDetection">
             <h1>Object Detection Component</h1>
             {/* whenever the image is changed, rerun the model */}
             <input type="file" accept="image/*" onChange={handleImageUpload} />
