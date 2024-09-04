@@ -58,6 +58,14 @@ const ObjectDetection = () => {
             <h1>Object Detection Component</h1>
             {/* whenever the image is changed, rerun the model */}
             <input type="file" accept="image/*" onChange={handleImageUpload} />
+            <div>
+                {imageSrc && (
+                    <div>
+                        <h3>Uploaded Image</h3>
+                            <img src={imageSrc} alt="Upload Preview" />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
