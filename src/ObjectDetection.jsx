@@ -51,6 +51,13 @@ const ObjectDetection = () => {
             const predictions = await model.detect(img);
             setPredictedValues(predictions);
         }
+    };
+
+    // Draw a bounding box around the image that the model predicts
+    const drawPredictions = (ctx, predictions) => {
+        predictions.forEach((prediction) => {
+            const [x, y, width, height] = prediction.bbox;
+        })
     }
 
 
@@ -64,6 +71,16 @@ const ObjectDetection = () => {
                     <div className="image-wrapper">
                         <h3>Uploaded Image</h3>
                             <img src={imageSrc} alt="Upload Preview" className="uploaded-image"/>
+                    </div>
+                )}
+                {imageSrc && (
+                    <div className="image-wrapper">
+                        <h3>Predicted Image</h3>
+                        <canvas 
+                            width={canvasSize.width}
+                            height={canvasSize.height}
+                            className="predicted-canvas"
+                        />
                     </div>
                 )}
             </div>
