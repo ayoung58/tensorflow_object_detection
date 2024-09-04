@@ -6,6 +6,8 @@ const ObjectDetection = () => {
 
     const [model, setModel] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
+    const [canvasSize, setCanvasSize] = useState({width: 0, height: 0});
+    const [predictedValue, setPredictedValue] = useState("");
 
     useEffect(() => {
         const loadModel = async () => {
@@ -28,10 +30,28 @@ const ObjectDetection = () => {
                 img.src = reader.result;
                 img.onload = () => {
                     setImageSrc(img.src);
-                }
-            }
+                    setCanvasSize({ width: img.width, height: img.height,});
+                    // check if model has loaded (it should've, but never a bad thing to check)
+                    if (model) {
+                        predictImage(img);
+                    } else {
+                        console.error("Model has not loaded yet...");
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const predictImage = async (img) => {
+        if (model) {
+            // using tensorflow to detect the image
+            // await means wait for variable to be set
+            const predictions = await model.detect(img);
+            setPredictedValue(predictions);
         }
     }
+
 
     return (
         <div>
