@@ -55,7 +55,9 @@ const ObjectDetection = () => {
 
     return (
         <div>
-            <ObjectDetection />
+            <h1>Object Detection Component</h1>
+            {/* whenever the image is changed, rerun the model */}
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
         </div>
     )
 }
