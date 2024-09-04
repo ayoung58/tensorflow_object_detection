@@ -64,8 +64,8 @@ const ObjectDetection = () => {
             ctx.lineWidth = 4;
             // define the shape of the box drawing
             ctx.strokeRect(x, y, width, height);
-            ctx.font = "24px Arial";
-            ctx.fillStyle = "blue";
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "red";
             ctx.fillText(
                 `${prediction.class}: ${Math.round(prediction.score * 100)}%`, 
                 x, 
@@ -125,7 +125,7 @@ const ObjectDetection = () => {
                             fontSize: "2rem",
                             fontFamily: "monospace",
                         }}>
-                            {eachPrediction.class}: {Math.round(eachPrediction.score) * 100}%
+                            {eachPrediction.class}: {Math.round(eachPrediction.score * 100)}%
                         </p>
                     ))}
                 </div>
