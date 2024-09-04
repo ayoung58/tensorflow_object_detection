@@ -7,7 +7,7 @@ const ObjectDetection = () => {
     const [model, setModel] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [canvasSize, setCanvasSize] = useState({width: 0, height: 0});
-    const [predictedValue, setPredictedValue] = useState("");
+    const [predictedValues, setPredictedValues] = useState("");
 
     useEffect(() => {
         const loadModel = async () => {
@@ -48,7 +48,7 @@ const ObjectDetection = () => {
             // using tensorflow to detect the image
             // await means wait for variable to be set
             const predictions = await model.detect(img);
-            setPredictedValue(predictions);
+            setPredictedValues(predictions);
         }
     }
 
@@ -66,6 +66,7 @@ const ObjectDetection = () => {
                     </div>
                 )}
             </div>
+
         </div>
     )
 }
