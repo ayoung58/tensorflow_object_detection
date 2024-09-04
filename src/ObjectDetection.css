@@ -16,7 +16,7 @@
     text-align: center;
 }
 
-.uploaded-image {
+.uploaded-image, .predicted-canvas {
     max-width: 100%;
     height: auto;
     border: 1px solid greenyellow;
