@@ -17,7 +17,21 @@ const ObjectDetection = () => {
         // you can technically reload when it is triggered again
         // but once model is loaded, there should be nothing else to load
         // hence, we use [].
-    }, [])
+    }, []);
+
+    const handleImageUpload = async (event) => {
+        const file = event.target.file[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const img = new Image();
+                img.src = reader.result;
+                img.onload = () => {
+                    setImageSrc(img.src);
+                }
+            }
+        }
+    }
 
     return (
         <div>
