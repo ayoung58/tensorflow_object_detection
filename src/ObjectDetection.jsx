@@ -56,9 +56,16 @@ const ObjectDetection = () => {
     // Draw a bounding box around the image that the model predicts
     const drawPredictions = (ctx, predictions) => {
         predictions.forEach((prediction) => {
+            // prediction.bbox: tensorflow gives the data for the bounding box 
+            // if we do console.log({x, y, width, height}), we'll be able to see the data
             const [x, y, width, height] = prediction.bbox;
-        })
-    }
+            // set the bounding box line color and width
+            ctx.strokeStyle = "red";
+            ctx.lineWidth = 4;
+            // define the shape of the box drawing
+            ctx.strokeRect(x, y, width, height);
+        });
+    };
 
 
     return (
@@ -80,6 +87,22 @@ const ObjectDetection = () => {
                             width={canvasSize.width}
                             height={canvasSize.height}
                             className="predicted-canvas"
+                            ref={(canvasRef) => {
+                                // if there's a canvas and there are predicted values, call drawPredictions, with 2d context
+                                if (canvasRef && predictedValues.length > 0) {
+                                    const ctx = canvasRef.getContext("2d");
+                                    const canvasImg = new Image();
+                                    // imageSrc is the one in the useState
+                                    // the image in the canvas will the same one as the one user uploads
+                                        canvasImg.src = imageSrc;
+                                        canvasImg.onload = () => {
+                                            // clear the canvas if new image is uploaded
+                                            ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
+                                            ctx.drawImage(canvasImg, 0, 0);
+                                            drawPredictions(ctx, predictedValues);
+                                        }
+                                }
+                            }}
                         />
                     </div>
                 )}
