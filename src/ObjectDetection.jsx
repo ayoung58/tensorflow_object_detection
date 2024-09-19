@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import WebcamComponent from "./Webcam";
 import '@tensorflow/tfjs';
 import * as cocoSsd  from "@tensorflow-models/coco-ssd"
 import "./ObjectDetection.css";
@@ -9,18 +10,42 @@ const ObjectDetection = () => {
     const [imageSrc, setImageSrc] = useState(null);
     const [canvasSize, setCanvasSize] = useState({width: 0, height: 0});
     const [predictedValues, setPredictedValues] = useState([]);
+    const webcamRef = useRef(null);
+    const canvasRef = useRef(null);
 
     useEffect(() => {
         const loadModel = async () => {
             const loadedModel = await cocoSsd.load();
             setModel(loadedModel);
         };
+        setInterval(async () => {
+            if (webcamRef.current && webcamRef.current.video.readyState === 4) {
+            const detections = await model.detect(webcamRef.current.video);
+            drawDetections(detections, canvasRef);
+            }
+        }, 100);
         loadModel();
         // [] = empty dependencies is used so that the model only loads once after initial render
         // you can technically reload when it is triggered again
         // but once model is loaded, there should be nothing else to load
         // hence, we use [].
     }, []);
+
+    const drawDetections = (detections, canvasRef) => {
+        const ctx = canvasRef.current.getContext("2d");
+        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        
+        detections.forEach(prediction => {
+        const [x, y, width, height] = prediction.bbox;
+        const text = prediction.class;
+        
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, width, height);
+        ctx.fillStyle = "red";
+        ctx.fillText(text, x, y > 10 ? y - 5 : y + 10);
+        });
+    };
 
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
@@ -78,6 +103,25 @@ const ObjectDetection = () => {
     return (
         <div className="ObjectDetection">
             <h1>Object Detection Component</h1>
+            {/* Webcam function start */}
+            <div>
+                <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                />
+                <canvas
+                ref={canvasRef}
+                style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                }
+                }
+                />
+            </div>
             {/* whenever the image is changed, rerun the model */}
             <input type="file" accept="image/*" onChange={handleImageUpload} />
             <div className="images-container">
